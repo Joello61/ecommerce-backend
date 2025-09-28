@@ -1,8 +1,17 @@
 parameters:
     level: 6
     paths:
-        - bin/
-        - config/
-        - public/
-        - src/
-        - tests/
+        - src
+
+    excludePaths:
+        - src/DataFixtures (?)
+        - src/Migrations (?)
+        - var/*
+        - vendor/*
+
+    ignoreErrors:
+        - '#Property .* is never written, only read#'
+        - '#Call to an undefined method .*::getId\(\)#'
+        - '#Method .* should return .* but returns object\|null#'
+        - '#Service .* is private#'
+        - '#Cannot access property .* on .*\|null#'

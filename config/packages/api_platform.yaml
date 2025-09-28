@@ -1,7 +1,45 @@
+# config/packages/api_platform.yaml
 api_platform:
-    title: Hello API Platform
-    version: 1.0.0
+    title: 'E-commerce API'
+    description: 'API REST pour application e-commerce moderne'
+    version: '1.0.0'
+
+    # Formats supportés
+    formats:
+        json: ['application/json']
+        jsonld: ['application/ld+json']
+
+    # Documentation
+    docs_formats:
+        jsonapi: ['application/vnd.api+json']
+
+    # Configuration de la pagination (syntaxe corrigée)
+    collection:
+        pagination:
+            enabled: true
+            items_per_page_parameter_name: 'limit'
+            page_parameter_name: 'page'
+            partial_parameter_name: 'partial'
+
+    # Valeurs par défaut pour la pagination
     defaults:
-        stateless: true
-        cache_headers:
-            vary: ['Content-Type', 'Authorization', 'Origin']
+        pagination_items_per_page: 20
+        pagination_maximum_items_per_page: 100
+
+    # Configuration Swagger/OpenAPI
+    swagger:
+        versions: [3]
+        api_keys:
+            JWT:
+                name: Authorization
+                type: header
+
+    # Configuration des exceptions
+    exception_to_status:
+        Symfony\Component\Serializer\Exception\ExceptionInterface: 400
+        ApiPlatform\Exception\InvalidArgumentException: 400
+
+    # Configuration du chargement eager
+    eager_loading:
+        enabled: true
+        max_joins: 30
