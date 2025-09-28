@@ -31,3 +31,7 @@
 ###> phpstan/phpstan ###
 phpstan.neon
 ###< phpstan/phpstan ###
+
+###> IDE files ###
+/.idea
+###< IDE files ###
