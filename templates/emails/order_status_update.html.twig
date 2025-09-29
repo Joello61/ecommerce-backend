@@ -1,0 +1,93 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block title %}Mise à jour commande {{ order.orderNumber }}{% endblock %}
+
+{% block content %}
+    <h2>Mise à jour de votre commande</h2>
+
+    <p>Bonjour {{ user.firstName }},</p>
+
+    <p>Nous vous informons que le statut de votre commande <strong>{{ order.orderNumber }}</strong> a été mis à jour.</p>
+
+    <div class="info-box">
+        <h3>Nouveau statut : {{ statusLabel }}</h3>
+        <p><strong>Commande :</strong> {{ order.orderNumber }}</p>
+        <p><strong>Date de mise à jour :</strong> {{ order.updatedAt|date('d/m/Y à H:i') }}</p>
+        {% if order.shippedAt %}
+            <p><strong>Date d'expédition :</strong> {{ order.shippedAt|date('d/m/Y à H:i') }}</p>
+        {% endif %}
+        {% if order.deliveredAt %}
+            <p><strong>Date de livraison :</strong> {{ order.deliveredAt|date('d/m/Y à H:i') }}</p>
+        {% endif %}
+    </div>
+
+    {% if order.status == 'confirmed' %}
+        <h3>Votre commande est confirmée</h3>
+        <p>Nous avons confirmé votre commande et nous commençons la préparation de vos articles. Vous recevrez bientôt un email de suivi d'expédition.</p>
+
+    {% elseif order.status == 'processing' %}
+        <h3>Votre commande est en préparation</h3>
+        <p>Nos équipes préparent votre commande avec le plus grand soin. L'expédition aura lieu très prochainement.</p>
+
+    {% elseif order.status == 'shipped' %}
+        <h3>Votre commande a été expédiée</h3>
+        <p>Bonne nouvelle ! Votre commande est en route et sera livrée sous 1-2 jours ouvrés.</p>
+        <div class="warning-box">
+            <p><strong>Suivi de livraison :</strong></p>
+            <p>Vous recevrez un email de notre transporteur avec le numéro de suivi dans les prochaines heures.</p>
+        </div>
+
+    {% elseif order.status == 'delivered' %}
+        <h3>Votre commande a été livrée</h3>
+        <p>Votre commande a été livrée avec succès ! Nous espérons que vous êtes satisfait(e) de vos achats.</p>
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="{{ url('app_review_order', {orderNumber: order.orderNumber}) }}" class="button">Laisser un avis</a>
+        </div>
+
+    {% elseif order.status == 'cancelled' %}
+        <h3>Votre commande a été annulée</h3>
+        <p>Votre commande a été annulée. Si vous n'êtes pas à l'origine de cette annulation, contactez-nous immédiatement.</p>
+        <div class="warning-box">
+            <p><strong>Remboursement :</strong></p>
+            <p>Le remboursement sera effectué automatiquement sur votre moyen de paiement sous 3-5 jours ouvrés.</p>
+        </div>
+    {% endif %}
+
+    <h3>Résumé de votre commande</h3>
+    <div class="order-summary">
+        {% for item in order.items %}
+            <div class="order-item">
+                <div>
+                    <strong>{{ item.productName }}</strong><br>
+                    <small>Quantité : {{ item.quantity }}</small>
+                </div>
+                <div>{{ item.totalPrice }}€</div>
+            </div>
+        {% endfor %}
+        <div class="order-item">
+            <div><strong>Total</strong></div>
+            <div><strong>{{ order.totalPrice }}€</strong></div>
+        </div>
+    </div>
+
+    {% if order.status != 'cancelled' and order.status != 'delivered' %}
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="{{ url('app_order_show', {orderNumber: order.orderNumber}) }}" class="button">Suivre ma commande</a>
+        </div>
+    {% endif %}
+
+    <div class="divider"></div>
+
+    <h3>Questions ou problème ?</h3>
+    <p>Notre service client est là pour vous aider :</p>
+    <ul>
+        <li><strong>Email :</strong> <a href="mailto:support@ecommerce.com">support@ecommerce.com</a></li>
+        <li><strong>Téléphone :</strong> +33 1 23 45 67 89</li>
+        <li><strong>Chat :</strong> Disponible sur notre site</li>
+    </ul>
+
+    <p style="margin-top: 30px;">
+        Merci de votre confiance !<br>
+        L'équipe {{ block('brand_name') }}
+    </p>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block title %}Votre commande {{ order.orderNumber }} a été expédiée{% endblock %}
+
+{% block content %}
+    <h2>Votre commande est en route ! 📦</h2>
+
+    <p>Bonjour {{ user.firstName }},</p>
+
+    <p>Excellente nouvelle ! Votre commande <strong>{{ order.orderNumber }}</strong> a quitté notre entrepôt et est maintenant en route vers vous.</p>
+
+    <div class="info-box">
+        <h3>Informations de livraison</h3>
+        <p><strong>Date d'expédition :</strong> {{ order.shippedAt|date('d/m/Y à H:i') }}</p>
+        <p><strong>Délai de livraison estimé :</strong> 1-2 jours ouvrés</p>
+        <p><strong>Transporteur :</strong> {{ carrier ?? 'Colissimo' }}</p>
+        {% if trackingNumber %}
+            <p><strong>Numéro de suivi :</strong> {{ trackingNumber }}</p>
+        {% endif %}
+    </div>
+
+    <h3>Adresse de livraison</h3>
+    <div class="order-summary">
+        {{ order.shippingAddress.formattedAddress|nl2br }}
+    </div>
+
+    {% if trackingNumber %}
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="{{ trackingUrl ?? '#' }}" class="button">Suivre mon colis</a>
+        </div>
+    {% endif %}
+
+    <h3>Que faire à la réception ?</h3>
+    <ol style="line-height: 2;">
+        <li>Vérifiez l'état du colis à la livraison</li>
+        <li>Signalez immédiatement tout dommage au transporteur</li>
+        <li>Contactez-nous en cas de problème</li>
+        <li>Profitez de vos achats !</li>
+    </ol>
+
+    <div class="warning-box">
+        <h3>Personne à domicile ?</h3>
+        <p>En cas d'absence, le transporteur déposera un avis de passage. Vous pourrez récupérer votre colis en point relais ou planifier une nouvelle livraison.</p>
+    </div>
+
+    <p style="margin-top: 30px;">
+        Merci de votre confiance !<br>
+        L'équipe {{ block('brand_name') }}
+    </p>
+{% endblock %}

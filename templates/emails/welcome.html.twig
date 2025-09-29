@@ -1,0 +1,49 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block title %}Bienvenue {{ user.firstName }} !{% endblock %}
+
+{% block content %}
+    <h2>Bienvenue {{ user.firstName }} !</h2>
+
+    <p>Nous sommes ravis de vous accueillir dans notre communauté. Votre compte a été créé avec succès et vous pouvez dès maintenant profiter de tous nos services.</p>
+
+    <div class="info-box">
+        <h3>Vos informations de compte :</h3>
+        <p><strong>Email :</strong> {{ user.email }}</p>
+        <p><strong>Nom :</strong> {{ user.fullName }}</p>
+        <p><strong>Date d'inscription :</strong> {{ user.createdAt|date('d/m/Y à H:i') }}</p>
+    </div>
+
+    <h3>Que pouvez-vous faire maintenant ?</h3>
+    <ul style="line-height: 2;">
+        <li><strong>Parcourir notre catalogue</strong> de produits soigneusement sélectionnés</li>
+        <li><strong>Créer votre liste de souhaits</strong> pour retrouver vos coups de cœur</li>
+        <li><strong>Gérer vos adresses de livraison</strong> pour des commandes plus rapides</li>
+        <li><strong>Suivre vos commandes</strong> en temps réel</li>
+        <li><strong>Bénéficier d'offres exclusives</strong> réservées à nos membres</li>
+    </ul>
+
+    <div style="text-align: center; margin: 30px 0;">
+        <a href="{{ url('app_home') }}" class="button">Découvrir notre boutique</a>
+    </div>
+
+    <div class="divider"></div>
+
+    <h3>Besoin d'aide ?</h3>
+    <p>Notre équipe support est à votre disposition pour répondre à toutes vos questions :</p>
+    <ul>
+        <li><strong>Email :</strong> <a href="mailto:support@ecommerce.com">support@ecommerce.com</a></li>
+        <li><strong>Téléphone :</strong> +33 1 23 45 67 89 (du lundi au vendredi, 9h-18h)</li>
+        <li><strong>Chat en ligne :</strong> Disponible sur notre site web</li>
+    </ul>
+
+    <div class="info-box">
+        <p><strong>💡 Conseil :</strong> Ajoutez notre adresse email à vos contacts pour ne jamais manquer nos actualités et offres spéciales !</p>
+    </div>
+
+    <p>Merci de nous faire confiance et à très bientôt sur notre boutique !</p>
+
+    <p style="margin-top: 30px;">
+        L'équipe {{ block('brand_name') }}
+    </p>
+{% endblock %}

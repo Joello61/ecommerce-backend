@@ -1,0 +1,36 @@
+% extends 'emails/base.html.twig' %}
+
+{% block title %}Alerte stock faible{% endblock %}
+
+{% block content %}
+    <h2>⚠️ Alerte Stock Faible</h2>
+
+    <p>Les produits suivants ont un stock faible et nécessitent un réapprovisionnement :</p>
+
+    <div class="warning-box">
+        <h3>Produits concernés ({{ products|length }})</h3>
+        {% for product in products %}
+            <div class="order-item">
+                <div>
+                    <strong>{{ product.name }}</strong><br>
+                    <small>Catégorie : {{ product.category ?? 'Non définie' }}</small>
+                </div>
+                <div style="color: #dc2626; font-weight: bold;">
+                    Stock : {{ product.current_stock }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <h3>Actions recommandées</h3>
+    <ul>
+        <li>Vérifier les commandes en cours</li>
+        <li>Contacter les fournisseurs</li>
+        <li>Mettre à jour les statuts si nécessaire</li>
+        <li>Informer l'équipe commerciale</li>
+    </ul>
+
+    <div style="text-align: center; margin: 30px 0;">
+        <a href="{{ url('admin_products_low_stock') }}" class="button">Voir dans l'admin</a>
+    </div>
+{% endblock %}

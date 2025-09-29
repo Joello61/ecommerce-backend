@@ -1,0 +1,25 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block title %}Nouveau message de contact{% endblock %}
+
+{% block content %}
+    <h2>Nouveau message de contact</h2>
+
+    <div class="info-box">
+        <h3>Informations de contact</h3>
+        <p><strong>Nom :</strong> {{ contactData.name ?? 'Non renseigné' }}</p>
+        <p><strong>Email :</strong> {{ contactData.email }}</p>
+        <p><strong>Téléphone :</strong> {{ contactData.phone ?? 'Non renseigné' }}</p>
+        <p><strong>Sujet :</strong> {{ contactData.subject ?? 'Aucun sujet' }}</p>
+        <p><strong>Date :</strong> {{ "now"|date('d/m/Y à H:i') }}</p>
+    </div>
+
+    <h3>Message</h3>
+    <div class="order-summary">
+        {{ contactData.message|nl2br }}
+    </div>
+
+    <div style="text-align: center; margin: 30px 0;">
+        <a href="mailto:{{ contactData.email }}" class="button">Répondre directement</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block title %}Nouvelle commande {{ order.orderNumber }}{% endblock %}
+
+{% block tagline %}Panneau d'administration{% endblock %}
+
+{% block content %}
+    <h2>Nouvelle commande reçue</h2>
+
+    <div class="info-box">
+        <h3>Détails de la commande</h3>
+        <p><strong>Numéro :</strong> {{ order.orderNumber }}</p>
+        <p><strong>Client :</strong> {{ order.user.fullName }} ({{ order.user.email }})</p>
+        <p><strong>Montant :</strong> {{ order.totalPrice }}€</p>
+        <p><strong>Date :</strong> {{ order.createdAt|date('d/m/Y à H:i') }}</p>
+        <p><strong>Articles :</strong> {{ order.totalItems }} ({{ order.totalQuantity }} unités)</p>
+    </div>
+
+    <h3>Articles commandés</h3>
+    <div class="order-summary">
+        {% for item in order.items %}
+            <div class="order-item">
+                <div>
+                    <strong>{{ item.productName }}</strong><br>
+                    <small>Quantité : {{ item.quantity }} × {{ item.price }}€</small>
+                </div>
+                <div>{{ item.totalPrice }}€</div>
+            </div>
+        {% endfor %}
+        <div class="order-item">
+            <div><strong>Total</strong></div>
+            <div><strong>{{ order.totalPrice }}€</strong></div>
+        </div>
+    </div>
+
+    <h3>Adresses</h3>
+    <div style="display: flex; gap: 20px;">
+        <div style="flex: 1;">
+            <h4>Livraison :</h4>
+            <div class="info-box">
+                {{ order.shippingAddress.formattedAddress|nl2br }}
+            </div>
+        </div>
+        <div style="flex: 1;">
+            <h4>Facturation :</h4>
+            <div class="info-box">
+                {{ order.billingAddress.formattedAddress|nl2br }}
+            </div>
+        </div>
+    </div>
+
+    {% if order.notes %}
+        <h3>Notes du client</h3>
+        <div class="warning-box">
+            {{ order.notes|nl2br }}
+        </div>
+    {% endif %}
+
+    <div style="text-align: center; margin: 30px 0;">
+        <a href="{{ url('admin_order_show', {id: order.id}) }}" class="button">Voir dans l'admin</a>
+    </div>
+{% endblock %}

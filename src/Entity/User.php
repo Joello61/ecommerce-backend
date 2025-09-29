@@ -4,12 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Post;
 use App\Repository\UserRepository;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -28,27 +22,6 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[UniqueEntity(fields: ['email'], message: 'Il existe déjà un compte avec cet email')]
 #[Vich\Uploadable]
-#[ApiResource(
-    operations: [
-        new GetCollection(security: "is_granted('ROLE_ADMIN')"),
-        new Post(
-            uriTemplate: '/register',
-            denormalizationContext: ['groups' => ['user:write']],
-            validationContext: ['groups' => ['user:create']],
-        ),
-        new Get(
-            normalizationContext: ['groups' => ['user:read']],
-            security: "is_granted('ROLE_ADMIN') or object == user",
-        ),
-        new Patch(
-            denormalizationContext: ['groups' => ['user:update']],
-            security: "is_granted('ROLE_ADMIN') or object == user",
-        ),
-        new Delete(security: "is_granted('ROLE_ADMIN') or object == user"),
-    ],
-    normalizationContext: ['groups' => ['user:read']],
-    denormalizationContext: ['groups' => ['user:write']],
-)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]

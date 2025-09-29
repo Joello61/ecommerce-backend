@@ -1,0 +1,80 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block title %}Confirmation de commande {{ order.orderNumber }}{% endblock %}
+
+{% block content %}
+    <h2>Commande confirmée !</h2>
+
+    <p>Bonjour {{ user.firstName }},</p>
+
+    <p>Merci pour votre commande ! Nous avons bien reçu votre paiement et votre commande est en cours de traitement.</p>
+
+    <div class="info-box">
+        <h3>Détails de votre commande</h3>
+        <p><strong>Numéro de commande :</strong> {{ order.orderNumber }}</p>
+        <p><strong>Date de commande :</strong> {{ order.createdAt|date('d/m/Y à H:i') }}</p>
+        <p><strong>Statut :</strong> {{ order.status|title }}</p>
+        {% if order.notes %}
+            <p><strong>Notes :</strong> {{ order.notes }}</p>
+        {% endif %}
+    </div>
+
+    <h3>Résumé de votre commande</h3>
+    <div class="order-summary">
+        {% for item in order.items %}
+            <div class="order-item">
+                <div>
+                    <strong>{{ item.productName }}</strong><br>
+                    <small>Quantité : {{ item.quantity }}</small>
+                </div>
+                <div>{{ item.totalPrice }}€</div>
+            </div>
+        {% endfor %}
+        <div class="order-item">
+            <div><strong>Total</strong></div>
+            <div><strong>{{ order.totalPrice }}€</strong></div>
+        </div>
+    </div>
+
+    <div style="display: flex; gap: 20px; margin: 30px 0;">
+        <div style="flex: 1;">
+            <h3>Adresse de livraison</h3>
+            <div class="info-box">
+                {{ order.shippingAddress.formattedAddress|nl2br }}
+            </div>
+        </div>
+        <div style="flex: 1;">
+            <h3>Adresse de facturation</h3>
+            <div class="info-box">
+                {{ order.billingAddress.formattedAddress|nl2br }}
+            </div>
+        </div>
+    </div>
+
+    <h3>Que se passe-t-il maintenant ?</h3>
+    <ol style="line-height: 2;">
+        <li><strong>Préparation :</strong> Nous préparons votre commande avec soin</li>
+        <li><strong>Expédition :</strong> Vous recevrez un email avec le numéro de suivi</li>
+        <li><strong>Livraison :</strong> Votre commande sera livrée sous 2-3 jours ouvrés</li>
+    </ol>
+
+    <div style="text-align: center; margin: 30px 0;">
+        <a href="{{ url('app_order_show', {orderNumber: order.orderNumber}) }}" class="button">Suivre ma commande</a>
+        <a href="{{ url('app_home') }}" class="button button-secondary">Continuer mes achats</a>
+    </div>
+
+    <div class="divider"></div>
+
+    <h3>Besoin d'aide ?</h3>
+    <p>Si vous avez des questions concernant votre commande, n'hésitez pas à nous contacter :</p>
+    <ul>
+        <li><strong>Email :</strong> <a href="mailto:commandes@ecommerce.com">commandes@ecommerce.com</a></li>
+        <li><strong>Téléphone :</strong> +33 1 23 45 67 89</li>
+        <li><strong>Référence :</strong> {{ order.orderNumber }}</li>
+    </ul>
+
+    <p style="margin-top: 30px;">
+        Merci de votre confiance !<br>
+        L'équipe {{ block('brand_name') }}
+    </p>
+{% endblock %}

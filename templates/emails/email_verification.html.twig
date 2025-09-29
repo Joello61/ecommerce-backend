@@ -1,0 +1,39 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block title %}Vérifiez votre adresse email{% endblock %}
+
+{% block content %}
+    <h2>Vérification de votre adresse email</h2>
+
+    <p>Bonjour {{ user.firstName }},</p>
+
+    <p>Pour finaliser la création de votre compte, nous devons vérifier votre adresse email. Cliquez sur le bouton ci-dessous pour confirmer votre adresse :</p>
+
+    <div style="text-align: center; margin: 30px 0;">
+        <a href="{{ url('app_verify_email', {token: verificationToken}) }}" class="button">Vérifier mon email</a>
+    </div>
+
+    <div class="info-box">
+        <h3>Pourquoi vérifier votre email ?</h3>
+        <ul>
+            <li>Sécuriser votre compte</li>
+            <li>Recevoir les confirmations de commande</li>
+            <li>Bénéficier de nos offres exclusives</li>
+            <li>Récupérer votre mot de passe si nécessaire</li>
+        </ul>
+    </div>
+
+    <p>Si le bouton ne fonctionne pas, copiez-collez ce lien dans votre navigateur :</p>
+    <p style="word-break: break-all; background-color: #f3f4f6; padding: 10px; border-radius: 4px;">
+        {{ url('app_verify_email', {token: verificationToken}) }}
+    </p>
+
+    <div class="warning-box">
+        <p><strong>Ce lien expire dans 24 heures.</strong> Si vous n'avez pas créé de compte sur notre site, ignorez cet email.</p>
+    </div>
+
+    <p style="margin-top: 30px;">
+        Merci de rejoindre notre communauté !<br>
+        L'équipe {{ block('brand_name') }}
+    </p>
+{% endblock %}

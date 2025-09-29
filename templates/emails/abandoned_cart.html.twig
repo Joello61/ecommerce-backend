@@ -1,0 +1,57 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block title %}Votre panier vous attend{% endblock %}
+
+{% block content %}
+<h2>Vous avez oublié quelque chose dans votre panier</h2>
+
+    <p>Bonjour {{ user.firstName }},</p>
+
+    <p>Nous avons remarqué que vous avez ajouté des articles à votre panier mais que vous n'avez pas finalisé votre commande. Vos articles vous attendent !</p>
+
+    <h3>Articles dans votre panier</h3>
+    <div class="order-summary">
+        {% set total = 0 %}
+        {% for item in cartItems %}
+            {% set itemTotal = item.product.price * item.quantity %}
+            {% set total = total + itemTotal %}
+            <div class="order-item">
+                <div>
+                    <strong>{{ item.product.name }}</strong><br>
+                    <small>Quantité : {{ item.quantity }} × {{ item.product.price }}€</small>
+                </div>
+                <div>{{ itemTotal }}€</div>
+            </div>
+        {% endfor %}
+        <div class="order-item">
+            <div><strong>Total</strong></div>
+            <div><strong>{{ total }}€</strong></div>
+        </div>
+    </div>
+
+    <div class="info-box">
+        <h3>Pourquoi finaliser maintenant ?</h3>
+        <ul>
+            <li>Livraison gratuite dès 50€ d'achat</li>
+            <li>Stock limité sur certains articles</li>
+            <li>Paiement 100% sécurisé</li>
+            <li>Livraison sous 2-3 jours ouvrés</li>
+        </ul>
+    </div>
+
+    <div style="text-align: center; margin: 30px 0;">
+        <a href="{{ url('app_cart') }}" class="button">Finaliser ma commande</a>
+        <a href="{{ url('app_home') }}" class="button button-secondary">Continuer mes achats</a>
+    </div>
+
+    <div class="divider"></div>
+
+    <p>Si vous avez des questions ou besoin d'aide, notre équipe est là pour vous accompagner :</p>
+    <p><strong>Email :</strong> <a href="mailto:support@ecommerce.com">support@ecommerce.com</a><br>
+        <strong>Téléphone :</strong> +33 1 23 45 67 89</p>
+
+    <p style="margin-top: 30px;">
+        À bientôt sur notre boutique !<br>
+        L'équipe {{ block('brand_name') }}
+    </p>
+{% endblock %}

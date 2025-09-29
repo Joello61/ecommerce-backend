@@ -4,12 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Post;
 use App\Repository\AddressRepository;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -21,17 +15,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use function sprintf;
 
 #[ORM\Entity(repositoryClass: AddressRepository::class)]
-#[ApiResource(
-    operations: [
-        new GetCollection(security: "is_granted('ROLE_USER')"),
-        new Post(security: "is_granted('ROLE_USER')"),
-        new Get(security: "is_granted('ROLE_ADMIN') or object.getUser() == user"),
-        new Patch(security: "is_granted('ROLE_ADMIN') or object.getUser() == user"),
-        new Delete(security: "is_granted('ROLE_ADMIN') or object.getUser() == user"),
-    ],
-    normalizationContext: ['groups' => ['address:read']],
-    denormalizationContext: ['groups' => ['address:write']],
-)]
 class Address
 {
     #[ORM\Id]

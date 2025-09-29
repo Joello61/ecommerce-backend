@@ -4,12 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Post;
 use App\Repository\CartItemRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,17 +11,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CartItemRepository::class)]
-#[ApiResource(
-    operations: [
-        new GetCollection(security: "is_granted('ROLE_USER')"),
-        new Post(security: "is_granted('ROLE_USER')"),
-        new Get(security: "is_granted('ROLE_ADMIN') or object.getCart().getUser() == user"),
-        new Patch(security: "is_granted('ROLE_ADMIN') or object.getCart().getUser() == user"),
-        new Delete(security: "is_granted('ROLE_ADMIN') or object.getCart().getUser() == user"),
-    ],
-    normalizationContext: ['groups' => ['cart:read']],
-    denormalizationContext: ['groups' => ['cart:write']],
-)]
 class CartItem
 {
     #[ORM\Id]

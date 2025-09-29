@@ -1,0 +1,38 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block title %}Newsletter {{ block('brand_name') }}{% endblock %}
+
+{% block content %}
+    <h2>Votre newsletter {{ block('brand_name') }}</h2>
+
+    <p>Bonjour {{ recipient.firstName ?? 'cher(e) abonné(e)' }},</p>
+
+    <div class="newsletter-content">
+        {{ content|raw }}
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="info-box">
+        <h3>Suivez-nous sur les réseaux sociaux</h3>
+        <p>Restez connecté(e) pour ne rien manquer de nos actualités, promotions et nouveautés !</p>
+        <div class="social-links">
+            <a href="#" style="margin-right: 15px;">📘 Facebook</a>
+            <a href="#" style="margin-right: 15px;">🐦 Twitter</a>
+            <a href="#" style="margin-right: 15px;">📷 Instagram</a>
+            <a href="#">💼 LinkedIn</a>
+        </div>
+    </div>
+
+    <p style="text-align: center; margin: 30px 0;">
+        <a href="{{ url('app_home') }}" class="button">Visiter notre boutique</a>
+    </p>
+
+    <p style="font-size: 12px; color: #6b7280; text-align: center; margin-top: 40px;">
+        Vous recevez cet email car vous êtes abonné(e) à notre newsletter.<br>
+        {% if unsubscribeUrl %}
+            <a href="{{ unsubscribeUrl }}" style="color: #6b7280;">Se désabonner</a> |
+        {% endif %}
+        <a href="{{ url('app_newsletter_preferences') }}" style="color: #6b7280;">Gérer mes préférences</a>
+    </p>
+{% endblock %}
