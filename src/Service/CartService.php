@@ -256,6 +256,7 @@ readonly class CartService
                     'name' => $item->getProduct()->getName(),
                     'price' => $item->getProduct()->getPrice(),
                     'stock' => $item->getProduct()->getStock(),
+                    'imageName' => $item->getProduct()->getImageName(),
                 ],
                 'quantity' => $item->getQuantity(),
                 'totalPrice' => $item->getTotalPrice(),

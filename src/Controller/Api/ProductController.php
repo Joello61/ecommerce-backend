@@ -276,7 +276,7 @@ class ProductController extends AbstractController
         }
     }
 
-    #[Route('/check-availability/{id}', name: 'check_availability', methods: ['GET'], requirements: ['id' => '\d+'])]
+    #[Route('/check-availability/{id}', name: 'check_availability', requirements: ['id' => '\d+'], methods: ['GET'])]
     public function checkAvailability(int $id): JsonResponse
     {
         try {
