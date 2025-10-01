@@ -1,22 +1,8 @@
-# config/packages/lexik_jwt_authentication.yaml
 lexik_jwt_authentication:
     secret_key: '%env(resolve:JWT_SECRET_KEY)%'
     public_key: '%env(resolve:JWT_PUBLIC_KEY)%'
     pass_phrase: '%env(JWT_PASSPHRASE)%'
     token_ttl: 3600  # 1 heure
-
-    # Configuration des cookies HttpOnly (syntaxe correcte pour cette version)
-    set_cookies:
-        BEARER:
-            lifetime: 3600
-            samesite: 'lax'
-            path: '/'
-            domain: null
-            secure: false    # true en production avec HTTPS
-            httpOnly: true   # Protection XSS
-
-    # Supprimer le token du body quand on utilise les cookies
-    remove_token_from_body_when_cookies_used: true
 
     # Extracteurs de tokens (header et cookies)
     token_extractors:
